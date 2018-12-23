@@ -8,7 +8,7 @@ namespace VoteKick
 		public TimeoutHandler(Plugin plugin, EventHandler ev)
 		{
 			Thread.Sleep(plugin.GetConfigInt("votekick_timeout") * 1000); // 30 seconds
-			ev.EndVote(true);
+			ev.EndVote();
 		}
 	}
 }

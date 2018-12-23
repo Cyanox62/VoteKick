@@ -44,12 +44,8 @@ namespace VoteKick
 			vNo = 0;
 		}
 
-		public void EndVote(bool timedout = false)
+		public void EndVote()
 		{
-			if (timedout)
-			{
-				b.CallRpcAddElement("The vote to kick '" + target.Name + "' has timed out.", 10, false);
-			}
 			if (vYes == vNo)
 			{
 				b.CallRpcAddElement("The vote to kick '" + target.Name + "' is a tie, player will not be kicked.", 10, false);
