@@ -11,7 +11,7 @@ namespace VoteKick
 			{
 				if (ev.pCooldown.Count > 0)
 				{
-					foreach (var key in ev.pCooldown.Keys.ToList())
+					foreach (string key in ev.pCooldown.Keys.ToList())
 					{
 						ev.pCooldown[key]--;
 						if (ev.pCooldown[key] <= 0)
