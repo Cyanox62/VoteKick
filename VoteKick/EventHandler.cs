@@ -40,13 +40,14 @@ namespace VoteKick
 		public void OnRoundEnd(RoundEndEvent ev)
 		{
 			isRoundStarted = false;
+			pCooldown.Clear();
 			vYes = 0;
 			vNo = 0;
 		}
 
 		public void EndVote()
 		{
-			if (vYes == vNo)
+			if (vYes == vNo && vNo != 0 && vYes != 0)
 			{
 				b.CallRpcAddElement("The vote to kick '" + target.Name + "' is a tie, player will not be kicked.", 10, false);
 			}
@@ -103,10 +104,6 @@ namespace VoteKick
 									ev.ReturnMessage = "Error: invalid player.";
 								}
 							}
-						}
-						else
-						{
-							ev.ReturnMessage = "VOTEKICK [PLAYER NAME]";
 						}
 					}
 					else
