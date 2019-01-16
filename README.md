@@ -23,8 +23,12 @@ Place the "VoteKick.dll" file in your sm_plugins folder.
 | VOTEYES | | Vote yes on the current vote. |
 | VOTENO | | Vote no on the current vote. |
 
-| Config        |  Default          | Description  |
-| :-------------: | :-----:|:-----|
-| votekick_minimum_votes | 2 | The minimum number of votes for a vote to pass.  |
-| votekick_cooldown | 120 | How many seconds each user must wait before initiating a second vote. |
-| votekick_timeout | 30 | How many seconds until a vote will automatically end. |
+| Config        | Type | Default          | Description  |
+| :-------------: |:----:|:-----:|:-----|
+| vk_minimum_votes | Integer | 2 | The minimum number of votes for a vote to pass.  |
+| vk_cooldown | Integer | 300 | How many seconds before another vote can be initiated. |
+| vk_timeout | Float | 30 | How many seconds until a vote will automatically end. |
+| vk_pass_percent | Integer | 60 | What percent of the votes must be in favor of the kick for it to go through. |
+| vk_cooldown_on_pass | Boolean | True | If a cooldown should be administered on the server when a vote passes. |
+| vk_cooldown_on_fails | Boolean | True | If a cooldown should be administered on the server when a vote fails. |
+| vk_crank_whitelist | List |moderator, admin, owner | A list of ranks that cannot be kicked. |
