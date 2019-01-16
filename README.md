@@ -2,8 +2,6 @@
 
 A plugin that allows players to vote to kick other players.
 
-### A plugin for SCP: Secret Laboratory
-
 # Installation
 
 **[Smod2](https://github.com/Grover-c13/Smod2) must be installed for this to work.**
