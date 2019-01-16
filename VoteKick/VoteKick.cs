@@ -4,6 +4,7 @@ using System.Linq;
 using Smod2;
 using Smod2.API;
 using Smod2.Attributes;
+using scp4aiur;
 
 namespace VoteKick
 {
@@ -12,7 +13,7 @@ namespace VoteKick
 	name = "Vote Kick",
 	description = "A vote kick plugin.",
 	id = "cyan.votekick",
-	version = "0.1",
+	version = "1.0.0",
 	SmodMajor = 3,
 	SmodMinor = 0,
 	SmodRevision = 0
@@ -20,22 +21,40 @@ namespace VoteKick
 
 	public class VoteKick : Plugin
 	{
-		public override void OnDisable()
-		{
+		public static Plugin instance;
 
-		}
+		public static int cMinVotes;
+		public static int cCooldown;
+		public static float cTimeout;
+		public static int cPassPercent;
+		public static bool cCooldownOnPass;
+		public static bool cCooldownOnFail;
+		public static List<string> cRankWhitelist;
 
-		public override void OnEnable()
-		{
+		public override void OnDisable() {}
 
-		}
+		public override void OnEnable() {}
 
 		public override void Register()
 		{
-			this.AddEventHandlers(new EventHandler(this));
-			this.AddConfig(new Smod2.Config.ConfigSetting("votekick_minimum_votes", 2, Smod2.Config.SettingType.NUMERIC, true, ""));
-			this.AddConfig(new Smod2.Config.ConfigSetting("votekick_cooldown", 120, Smod2.Config.SettingType.NUMERIC, true, ""));
-			this.AddConfig(new Smod2.Config.ConfigSetting("votekick_timeout", 30, Smod2.Config.SettingType.NUMERIC, true, ""));
+			instance = this;
+
+			Timing.Init(this);
+
+			AddEventHandlers(new EventHandler());
+
+			AddConfig(new Smod2.Config.ConfigSetting("vk_minimum_votes", 2, Smod2.Config.SettingType.NUMERIC, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_timeout", 30f, Smod2.Config.SettingType.FLOAT, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_percent", 60, Smod2.Config.SettingType.NUMERIC, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_cooldown_on_pass", true, Smod2.Config.SettingType.BOOL, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_cooldown_on_fail", true, Smod2.Config.SettingType.BOOL, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_rank_whitelist", new[]
+			{
+				"moderator",
+				"admin",
+				"owner"
+			}, Smod2.Config.SettingType.LIST, true, ""));
 		}
 
 		public static string[] StringToStringArray(string input)

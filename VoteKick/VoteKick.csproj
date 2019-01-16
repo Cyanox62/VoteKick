@@ -58,11 +58,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CooldownHandler.cs" />
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="EventHandler.cs" />
-    <Compile Include="TimeoutHandler.cs" />
-    <Compile Include="VoteKick.cs" />
+    <Compile Include="GameLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timing.cs" />
+    <Compile Include="VoteKick.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
