@@ -31,4 +31,4 @@ Place the "VoteKick.dll" file in your sm_plugins folder.
 | vk_pass_percent | Integer | 60 | What percent of the votes must be in favor of the kick for it to go through. |
 | vk_cooldown_on_pass | Boolean | True | If a cooldown should be administered on the server when a vote passes. |
 | vk_cooldown_on_fails | Boolean | True | If a cooldown should be administered on the server when a vote fails. |
-| vk_crank_whitelist | List |moderator, admin, owner | A list of ranks that cannot be kicked. |
+| vk_rank_whitelist | List |moderator, admin, owner | A list of ranks that cannot be kicked. |
