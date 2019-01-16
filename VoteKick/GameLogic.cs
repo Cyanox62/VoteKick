@@ -14,8 +14,7 @@ namespace VoteKick
 		public void LoadConfigs()
 		{
 			VoteKick.cMinVotes = VoteKick.instance.GetConfigInt("vk_minimum_votes");
-			//VoteKick.cCooldown = VoteKick.instance.GetConfigInt("vk_cooldown");
-			VoteKick.cCooldown = 30;
+			VoteKick.cCooldown = VoteKick.instance.GetConfigInt("vk_cooldown");
 			VoteKick.cTimeout = VoteKick.instance.GetConfigFloat("vk_timeout");
 			VoteKick.cPassPercent = VoteKick.instance.GetConfigInt("vk_pass_percent");
 			VoteKick.cCooldownOnPass = VoteKick.instance.GetConfigBool("vk_cooldown_on_pass");
