@@ -28,4 +28,5 @@ Place the "VoteKick.dll" file in your sm_plugins folder.
 | vk_pass_percent | Integer | 60 | What percent of the votes must be in favor of the kick for it to go through. |
 | vk_pass_cooldown | Integer | 300 | The number of seconds before another vote can be initiated if the previous vote passed. |
 | vk_fail_cooldown | Integer | 300 | The number of seconds before another vote can be initiated if the previous vote failed. |
-| vk_rank_whitelist | List |moderator, admin, owner | A list of ranks that cannot be kicked. |
+| vk_vote_ranks | List | | A list of ranks that can initiate a vote kick. If left blank it will allow all ranks. |
+| vk_immune_ranks | List | moderator, admin, owner | A list of ranks that cannot be kicked. |
