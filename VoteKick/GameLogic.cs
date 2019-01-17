@@ -1,11 +1,6 @@
-﻿using Smod2;
-using Smod2.API;
-using Smod2.EventHandlers;
-using Smod2.Events;
+﻿using Smod2.API;
 using System.Collections.Generic;
-using System.Threading;
 using scp4aiur;
-using System;
 
 namespace VoteKick
 {
@@ -14,18 +9,17 @@ namespace VoteKick
 		public void LoadConfigs()
 		{
 			VoteKick.cMinVotes = VoteKick.instance.GetConfigInt("vk_minimum_votes");
-			VoteKick.cCooldown = VoteKick.instance.GetConfigInt("vk_cooldown");
 			VoteKick.cTimeout = VoteKick.instance.GetConfigFloat("vk_timeout");
 			VoteKick.cPassPercent = VoteKick.instance.GetConfigInt("vk_pass_percent");
-			VoteKick.cCooldownOnPass = VoteKick.instance.GetConfigBool("vk_cooldown_on_pass");
-			VoteKick.cCooldownOnFail = VoteKick.instance.GetConfigBool("vk_cooldown_on_fail");
+			VoteKick.cPassCooldown = VoteKick.instance.GetConfigInt("vk_pass_cooldown");
+			VoteKick.cFailCooldown = VoteKick.instance.GetConfigInt("vk_fail_cooldown");
 			VoteKick.cRankWhitelist = new List<string>(VoteKick.instance.GetConfigList("vk_rank_whitelist"));
 		}
 
-		public void StartCooldown()
+		public void StartCooldown(int cooldown)
 		{
 			onCooldown = true;
-			vCooldown = VoteKick.cCooldown;
+			vCooldown = cooldown;
 
 			Timing.In(x => RefreshCooldown(), 1);
 		}
@@ -108,48 +102,25 @@ namespace VoteKick
 			EndVote(true);
 		}
 
-		public string VoteYes(Player player)
+		public string Vote(bool yes, Player player)
 		{
 			string rMessage = "";
 			if (isVoting)
 			{
 				if (!vPlayers.Contains(player.SteamId))
 				{
-					if (player.SteamId != target.SteamId)
+					if (player.SteamId != target.SteamId && player.SteamId != caller.SteamId)
 					{
-						vYes++;
+						if (yes) vYes++; else vNo++;
 						rMessage = "Vote registered.";
 						vPlayers.Add(player.SteamId);
-						if (vYes + vNo >= vPlayerCount) EndVote();
+						// Adding 2 to account for the initiater and target who can't vote
+						if (vYes + vNo + 2 >= vPlayerCount) EndVote();
 					}
 					else
 					{
-						rMessage = $"Error: {(player.SteamId == target.SteamId ? "you cannot vote for yourself." : "you cannot vote on your own vote.")}";
+						rMessage = $"{(player.SteamId == target.SteamId ? "You cannot vote for yourself." : "You cannot vote on your own vote.")}";
 					}
-				}
-				else
-				{
-					rMessage = "You have already voted on this poll.";
-				}
-			}
-			else
-			{
-				rMessage = "There is not an active vote.";
-			}
-			return rMessage;
-		}
-
-		public string VoteNo(Player player)
-		{
-			string rMessage = "";
-			if (isVoting)
-			{
-				if (!vPlayers.Contains(player.SteamId))
-				{
-					vNo++;
-					rMessage = "Vote registered.";
-					vPlayers.Add(player.SteamId);
-					if (vYes + vNo >= vPlayerCount) EndVote();
 				}
 				else
 				{
@@ -177,7 +148,7 @@ namespace VoteKick
 				{
 					b.CallRpcAddElement($"The vote kick against <color=#00f9ff>{target.Name}</color> has been cancelled.", 10, false);
 				}
-				else if (vYes + vNo < VoteKick.cMinVotes)
+				else if (vYes + vNo + 2 < VoteKick.cMinVotes)
 				{
 					b.CallRpcAddElement($"There were not enough votes on the poll to kick <color=#FF0000>{target.Name}</color>.", 10, false);
 				}
@@ -185,12 +156,12 @@ namespace VoteKick
 				{
 					b.CallRpcAddElement($"The vote to kick <color=#FF0000>{target.Name}</color> has passed. Kicking player...", 10, false);
 					target.Disconnect($"You have been vote kicked by {caller.Name}.");
-					if (VoteKick.cCooldownOnPass) StartCooldown();
+					StartCooldown(VoteKick.cPassCooldown);
 				}
 				else
 				{
 					b.CallRpcAddElement($"The vote to kick <color=#FF0000>{target.Name}</color> has failed.", 10, false);
-					if (VoteKick.cCooldownOnFail) StartCooldown();
+					StartCooldown(VoteKick.cFailCooldown);
 				}
 
 				vYes = 0;

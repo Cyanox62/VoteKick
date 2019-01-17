@@ -27,8 +27,8 @@ namespace VoteKick
 		public static int cCooldown;
 		public static float cTimeout;
 		public static int cPassPercent;
-		public static bool cCooldownOnPass;
-		public static bool cCooldownOnFail;
+		public static int cPassCooldown;
+		public static int cFailCooldown;
 		public static List<string> cRankWhitelist;
 
 		public override void OnDisable() {}
@@ -44,11 +44,10 @@ namespace VoteKick
 			AddEventHandlers(new EventHandler());
 
 			AddConfig(new Smod2.Config.ConfigSetting("vk_minimum_votes", 2, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_timeout", 30f, Smod2.Config.SettingType.FLOAT, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_percent", 60, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_cooldown_on_pass", true, Smod2.Config.SettingType.BOOL, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_cooldown_on_fail", true, Smod2.Config.SettingType.BOOL, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_fail_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_rank_whitelist", new[]
 			{
 				"moderator",

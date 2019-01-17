@@ -3,8 +3,6 @@ using Smod2.API;
 using Smod2.EventHandlers;
 using Smod2.Events;
 using System.Collections.Generic;
-using System.Threading;
-using scp4aiur;
 
 namespace VoteKick
 {
@@ -54,12 +52,12 @@ namespace VoteKick
 
 			if (ev.Command.ToLower() == "voteyes")
 			{
-				ev.ReturnMessage = VoteYes(ev.Player);
+				ev.ReturnMessage = Vote(true, ev.Player);
 			}
 
 			if (ev.Command.ToLower() == "voteno")
 			{
-				ev.ReturnMessage = VoteNo(ev.Player);
+				ev.ReturnMessage = Vote(false, ev.Player);
 			}
 		}
 	}
