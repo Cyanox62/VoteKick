@@ -29,7 +29,8 @@ namespace VoteKick
 		public static int cPassPercent;
 		public static int cPassCooldown;
 		public static int cFailCooldown;
-		public static List<string> cRankWhitelist;
+		public static List<string> cVoteRanks;
+		public static List<string> cImmuneRanks;
 
 		public override void OnDisable() {}
 
@@ -48,8 +49,9 @@ namespace VoteKick
 			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_percent", 60, Smod2.Config.SettingType.NUMERIC, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_fail_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_rank_whitelist", new[]
-			{
+			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_ranks", new string[] {"moderator"}, Smod2.Config.SettingType.LIST, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_immune_ranks", new[]
+{
 				"moderator",
 				"admin",
 				"owner"

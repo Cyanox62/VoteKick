@@ -13,7 +13,8 @@ namespace VoteKick
 			VoteKick.cPassPercent = VoteKick.instance.GetConfigInt("vk_pass_percent");
 			VoteKick.cPassCooldown = VoteKick.instance.GetConfigInt("vk_pass_cooldown");
 			VoteKick.cFailCooldown = VoteKick.instance.GetConfigInt("vk_fail_cooldown");
-			VoteKick.cRankWhitelist = new List<string>(VoteKick.instance.GetConfigList("vk_rank_whitelist"));
+			VoteKick.cVoteRanks = new List<string>(VoteKick.instance.GetConfigList("vk_vote_ranks"));
+			VoteKick.cImmuneRanks = new List<string>(VoteKick.instance.GetConfigList("vk_immune_ranks"));
 		}
 
 		public void StartCooldown(int cooldown)
@@ -37,6 +38,11 @@ namespace VoteKick
 		{
 			string rMessage = "";
 
+			if (VoteKick.cVoteRanks.Count > 0 && !VoteKick.cVoteRanks.Contains(player.GetRankName()))
+			{
+				return "You are not allowed to initiate a vote kick.";
+			}
+
 			if (isRoundStarted)
 			{
 				if (!isVoting)
@@ -50,7 +56,7 @@ namespace VoteKick
 						{
 							if (player.SteamId != target.SteamId)
 							{
-								if (!VoteKick.cRankWhitelist.Contains(target.GetRankName().ToLower()))
+								if (!VoteKick.cImmuneRanks.Contains(target.GetRankName().ToLower()))
 								{
 									caller = player;
 									if (!onCooldown)
