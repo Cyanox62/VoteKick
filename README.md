@@ -30,3 +30,4 @@ Place the "VoteKick.dll" file in your sm_plugins folder.
 | vk_fail_cooldown | Integer | 300 | The number of seconds before another vote can be initiated if the previous vote failed. |
 | vk_vote_ranks | List | | A list of ranks that can initiate a vote kick. If left blank it will allow all ranks. |
 | vk_immune_ranks | List | moderator, admin, owner | A list of ranks that cannot be kicked. |
+| vk_vote_level | Integer | 1 | [PlayerXP](https://github.com/Cyanox62/PlayerXP) integration, sets a minimum level that players must be in order to start a vote kick. |
