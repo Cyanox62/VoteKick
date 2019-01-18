@@ -1,6 +1,7 @@
 ﻿using Smod2.API;
 using System.Collections.Generic;
 using scp4aiur;
+using System.IO;
 
 namespace VoteKick
 {
@@ -13,6 +14,7 @@ namespace VoteKick
 			VoteKick.cPassPercent = VoteKick.instance.GetConfigInt("vk_pass_percent");
 			VoteKick.cPassCooldown = VoteKick.instance.GetConfigInt("vk_pass_cooldown");
 			VoteKick.cFailCooldown = VoteKick.instance.GetConfigInt("vk_fail_cooldown");
+			VoteKick.cVoteLevel = VoteKick.instance.GetConfigInt("vk_vote_level");
 			VoteKick.cVoteRanks = new List<string>(VoteKick.instance.GetConfigList("vk_vote_ranks"));
 			VoteKick.cImmuneRanks = new List<string>(VoteKick.instance.GetConfigList("vk_immune_ranks"));
 		}
@@ -40,7 +42,12 @@ namespace VoteKick
 
 			if (VoteKick.cVoteRanks.Count > 0 && !VoteKick.cVoteRanks.Contains(player.GetRankName()))
 			{
-				return "You are not allowed to initiate a vote kick.";
+				return "Your rank is not allowed to initiate a vote kick.";
+			}
+			else if (VoteKick.isPlayerXP && (int.Parse(File.ReadAllText(FileManager.GetAppFolder() + "PlayerXP"
+				+ Path.DirectorySeparatorChar.ToString() + player.SteamId + ".txt").Split(':')[0]) < VoteKick.cVoteLevel))
+			{
+				return $"You must be at least level {VoteKick.cVoteLevel} to initiate a vote kick.";
 			}
 
 			if (isRoundStarted)
@@ -145,10 +152,6 @@ namespace VoteKick
 			if (isVoting)
 			{
 				isVoting = false;
-
-				VoteKick.instance.Info(vYes.ToString());
-				VoteKick.instance.Info(vNo.ToString());
-				VoteKick.instance.Info((vYes / (vYes + vNo) * 100f).ToString());
 
 				if (cancelled)
 				{

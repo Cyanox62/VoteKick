@@ -29,8 +29,11 @@ namespace VoteKick
 		public static int cPassPercent;
 		public static int cPassCooldown;
 		public static int cFailCooldown;
+		public static int cVoteLevel;
 		public static List<string> cVoteRanks;
 		public static List<string> cImmuneRanks;
+
+		public static bool isPlayerXP = PluginManager.Manager.Plugins.Where(p => p.Details.id == "cyan.playerxp").Count() > 0;
 
 		public override void OnDisable() {}
 
@@ -49,13 +52,14 @@ namespace VoteKick
 			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_percent", 60, Smod2.Config.SettingType.NUMERIC, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_fail_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_ranks", new string[] {"moderator"}, Smod2.Config.SettingType.LIST, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_ranks", new string[] {}, Smod2.Config.SettingType.LIST, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_immune_ranks", new[]
-{
+			{
 				"moderator",
 				"admin",
 				"owner"
 			}, Smod2.Config.SettingType.LIST, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_level", 1, Smod2.Config.SettingType.NUMERIC, true, ""));
 		}
 
 		public static string[] StringToStringArray(string input)

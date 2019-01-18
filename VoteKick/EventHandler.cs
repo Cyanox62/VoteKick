@@ -3,6 +3,7 @@ using Smod2.API;
 using Smod2.EventHandlers;
 using Smod2.Events;
 using System.Collections.Generic;
+using System.IO;
 
 namespace VoteKick
 {
