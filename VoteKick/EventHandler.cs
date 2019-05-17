@@ -44,20 +44,34 @@ namespace VoteKick
 		public void OnCallCommand(PlayerCallCommandEvent ev)
 		{
 			b = UnityEngine.Object.FindObjectOfType<Broadcast>();
+			string cmd = ev.Command.ToLower();
 
-			if (ev.Command.ToLower().StartsWith("votekick"))
+			if (cmd.StartsWith("votekick"))
 			{
+				if (VoteKick.isPlayerBanned(ev.Player))
+				{
+					ev.ReturnMessage = "You have been banned from using VoteKick.";
+					return;
+				}
 				vPlayerCount = PluginManager.Manager.Server.GetPlayers().Count;
 				ev.ReturnMessage = StartVote(ev.Command, ev.Player);
 			}
-
-			if (ev.Command.ToLower() == "voteyes")
+			else if (cmd == "voteyes")
 			{
+				if (VoteKick.isPlayerBanned(ev.Player))
+				{
+					ev.ReturnMessage = "You have been banned from using VoteKick.";
+					return;
+				}
 				ev.ReturnMessage = Vote(true, ev.Player);
 			}
-
-			if (ev.Command.ToLower() == "voteno")
+			else if (cmd == "voteno")
 			{
+				if (VoteKick.isPlayerBanned(ev.Player))
+				{
+					ev.ReturnMessage = "You have been banned from using VoteKick.";
+					return;
+				}
 				ev.ReturnMessage = Vote(false, ev.Player);
 			}
 		}

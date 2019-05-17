@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VoteKick</RootNamespace>
     <AssemblyName>VoteKick</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -32,11 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\Desktop\3.2.01\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\3.4.0\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Smod2">
-      <HintPath>..\..\..\..\Desktop\3.2.01\Smod2.dll</HintPath>
+    <Reference Include="Smod2, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\3.4.0\Smod2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -58,11 +60,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BanPlayerCommand.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="GameLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timing.cs" />
+    <Compile Include="UnbanPlayerCommand.cs" />
     <Compile Include="VoteKick.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

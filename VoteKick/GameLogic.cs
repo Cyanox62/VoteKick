@@ -58,7 +58,18 @@ namespace VoteKick
 
 					if (args.Length > 0)
 					{
-						target = VoteKick.GetPlayer(args[0], out target);
+						string steamid = "";
+						Player myPlayer = VoteKick.GetPlayer(args[0], out myPlayer);
+						if (myPlayer != null)
+						{
+							steamid = myPlayer.SteamId;
+						}
+						else if (ulong.TryParse(args[0], out ulong a))
+						{
+							steamid = a.ToString();
+						}
+
+						target = VoteKick.GetPlayer(steamid);
 						if (target != null)
 						{
 							if (player.SteamId != target.SteamId)
@@ -105,7 +116,7 @@ namespace VoteKick
 			}
 			else
 			{
-				rMessage = "Error: round must be started to initiate vote kick.";
+				rMessage = "Round must be started to initiate vote kick.";
 			}
 			return rMessage;
 		}

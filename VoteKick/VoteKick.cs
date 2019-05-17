@@ -5,6 +5,7 @@ using Smod2;
 using Smod2.API;
 using Smod2.Attributes;
 using scp4aiur;
+using System.IO;
 
 namespace VoteKick
 {
@@ -35,9 +36,22 @@ namespace VoteKick
 
 		public static bool isPlayerXP = PluginManager.Manager.Plugins.Where(p => p.Details.id == "cyan.playerxp").Count() > 0;
 
+		public static string ConfigFolerFilePath = FileManager.GetAppFolder() + "VoteKick";
+		public static string BanFolderFilePath = FileManager.GetAppFolder() + "VoteKick" + Path.DirectorySeparatorChar + "Bans";
+
 		public override void OnDisable() {}
 
-		public override void OnEnable() {}
+		public override void OnEnable()
+		{
+			if (!Directory.Exists(ConfigFolerFilePath))
+			{
+				Directory.CreateDirectory(ConfigFolerFilePath);
+			}
+			if (!Directory.Exists(BanFolderFilePath))
+			{
+				Directory.CreateDirectory(BanFolderFilePath);
+			}
+		}
 
 		public override void Register()
 		{
@@ -47,19 +61,22 @@ namespace VoteKick
 
 			AddEventHandlers(new EventHandler());
 
-			AddConfig(new Smod2.Config.ConfigSetting("vk_minimum_votes", 2, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_timeout", 30f, Smod2.Config.SettingType.FLOAT, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_percent", 60, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_fail_cooldown", 300, Smod2.Config.SettingType.NUMERIC, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_ranks", new string[] {}, Smod2.Config.SettingType.LIST, true, ""));
+			AddCommands(new[] { "vkban", "votekickban" }, new BanPlayerCommand());
+			AddCommands(new[] { "vkunban", "votekickunban" }, new UnbanPlayerCommand());
+
+			AddConfig(new Smod2.Config.ConfigSetting("vk_minimum_votes", 2, false, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_timeout", 30f, false, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_percent", 60, false, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_pass_cooldown", 300, false, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_fail_cooldown", 300, false, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_ranks", new string[] {}, false, true, ""));
 			AddConfig(new Smod2.Config.ConfigSetting("vk_immune_ranks", new[]
 			{
 				"moderator",
 				"admin",
 				"owner"
-			}, Smod2.Config.SettingType.LIST, true, ""));
-			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_level", 1, Smod2.Config.SettingType.NUMERIC, true, ""));
+			}, false, true, ""));
+			AddConfig(new Smod2.Config.ConfigSetting("vk_vote_level", 1, false, true, ""));
 		}
 
 		public static string[] StringToStringArray(string input)
@@ -78,14 +95,7 @@ namespace VoteKick
 
 		public static Player GetPlayer(string steamid)
 		{
-			foreach (Player player in PluginManager.Manager.Server.GetPlayers())
-			{
-				if (player.SteamId == steamid)
-				{
-					return player;
-				}
-			}
-			return null;
+			return PluginManager.Manager.Server.GetPlayers().FirstOrDefault(x => x.SteamId == steamid);
 		}
 
 		public static int LevenshteinDistance(string s, string t)
@@ -158,6 +168,21 @@ namespace VoteKick
 			}
 			playerOut = plyer;
 			return playerOut;
+		}
+
+		public static bool isPlayerBanned(Player player)
+		{
+			if (Directory.Exists(BanFolderFilePath))
+			{
+				foreach (string file in Directory.GetFiles(BanFolderFilePath))
+				{
+					if (file.Replace($"{BanFolderFilePath}{Path.DirectorySeparatorChar}", "").Replace(".txt", "").Trim() == player.SteamId)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 	}
 }
