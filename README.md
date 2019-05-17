@@ -17,9 +17,15 @@ Place the "VoteKick.dll" file in your sm_plugins folder.
 
 | Command        |  Parameter          | Description  |
 | :-------------: | :-----:|:-----|
-| VOTEKICK | PLAYER NAME | Initiate a vote to kick the specified player.  |
+| VOTEKICK | PLAYER NAME / STEAMID | Initiate a vote to kick the specified player.  |
 | VOTEYES | | Vote yes on the current vote. |
 | VOTENO | | Vote no on the current vote. |
+
+**These commands are run through the Remote Admin console by admins only**
+| Command        |  Parameter          | Description  |
+| :-------------: | :-----:|:-----|
+| VKBAN / VOTEKICKBAN | PLAYER NAME / STEAMID | Ban a player from initiating a votekick.  |
+| VKUNBAN / VOTEKICKUNBAN | PLAYER NAME / STEAMID | Unban a player from initiating a votekick.  |
 
 | Config        | Type | Default          | Description  |
 | :-------------: |:----:|:-----:|:-----|
