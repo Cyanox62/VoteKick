@@ -1,7 +1,8 @@
 ﻿using Smod2.API;
 using System.Collections.Generic;
-using scp4aiur;
 using System.IO;
+using MEC;
+using System;
 
 namespace VoteKick
 {
@@ -24,16 +25,22 @@ namespace VoteKick
 			onCooldown = true;
 			vCooldown = cooldown;
 
-			Timing.In(x => RefreshCooldown(), 1);
+			Timing.RunCoroutine(RefreshCooldown());
 		}
 
-		public void RefreshCooldown()
+		public IEnumerator<float> RunInSeconds(Action action, float delay)
+		{
+			yield return Timing.WaitForSeconds(delay);
+			action();
+		}
+
+		public IEnumerator<float> RefreshCooldown()
 		{
 			vCooldown--;
 			if (vCooldown <= 0)
 				onCooldown = false;
 			else
-				Timing.In(x => RefreshCooldown(), 1);
+				yield return Timing.WaitForSeconds(1);
 		}
 
 		public string StartVote(string command, Player player)
@@ -83,10 +90,7 @@ namespace VoteKick
 										rMessage = "Vote has been started.";
 										isVoting = true;
 
-										Timing.In(x =>
-										{
-											EndVote();
-										}, VoteKick.cTimeout);
+										Timing.RunCoroutine(RunInSeconds(() => EndVote(), VoteKick.cTimeout));
 									}
 									else
 									{

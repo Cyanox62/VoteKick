@@ -4,7 +4,6 @@ using System.Linq;
 using Smod2;
 using Smod2.API;
 using Smod2.Attributes;
-using scp4aiur;
 using System.IO;
 
 namespace VoteKick
@@ -56,8 +55,6 @@ namespace VoteKick
 		public override void Register()
 		{
 			instance = this;
-
-			Timing.Init(this);
 
 			AddEventHandlers(new EventHandler());
 
