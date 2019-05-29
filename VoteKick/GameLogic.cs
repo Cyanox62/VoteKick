@@ -36,11 +36,12 @@ namespace VoteKick
 
 		public IEnumerator<float> RefreshCooldown()
 		{
-			vCooldown--;
-			if (vCooldown <= 0)
-				onCooldown = false;
-			else
+			while (vCooldown > 0)
+			{
+				vCooldown--;
 				yield return Timing.WaitForSeconds(1);
+			}
+			onCooldown = false;
 		}
 
 		public string StartVote(string command, Player player)
